@@ -22,54 +22,57 @@ export default function Hero3D() {
 
     // ---- Main Group ----
     const mainGroup = new THREE.Group();
+    // Move 3D cross lower down in scene so it sits below heading text
+    mainGroup.position.set(0, -0.9, -0.5);
     scene.add(mainGroup);
 
-    // Responsive scale
+    // Responsive scale & position
     const updateScale = () => {
       const isMobile = window.innerWidth < 600;
-      mainGroup.scale.setScalar(isMobile ? 0.75 : 1);
+      mainGroup.scale.setScalar(isMobile ? 0.7 : 0.95);
+      mainGroup.position.y = isMobile ? -1.1 : -0.9;
     };
     updateScale();
 
-    // ---- 1. Metallic Gold Outer Frame & Ruby Core Cross ----
+    // ---- 1. Metallic Gold Outer Frame & Soft Crimson Core Cross ----
     const goldMat = new THREE.MeshStandardMaterial({
-      color: 0xd4af37,
-      metalness: 0.9,
-      roughness: 0.25,
-      emissive: 0x3a2e0e,
-      emissiveIntensity: 0.2,
+      color: 0xc9a24a,
+      metalness: 0.85,
+      roughness: 0.3,
+      emissive: 0x2a200a,
+      emissiveIntensity: 0.15,
     });
 
     const rubyCoreMat = new THREE.MeshStandardMaterial({
-      color: 0xc8102e,
-      emissive: 0x990d24,
-      emissiveIntensity: 0.85,
-      metalness: 0.4,
-      roughness: 0.3,
+      color: 0x8a0e20,
+      emissive: 0x4d0712,
+      emissiveIntensity: 0.45,
+      metalness: 0.3,
+      roughness: 0.4,
     });
 
     const crossGroup = new THREE.Group();
 
     // Outer Gold Vertical & Horizontal
-    const vertGold = new THREE.Mesh(new THREE.BoxGeometry(0.52, 3.32, 0.52), goldMat);
-    const horizGold = new THREE.Mesh(new THREE.BoxGeometry(2.02, 0.52, 0.52), goldMat);
+    const vertGold = new THREE.Mesh(new THREE.BoxGeometry(0.5, 3.2, 0.5), goldMat);
+    const horizGold = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.5, 0.5), goldMat);
     horizGold.position.y = 0.75;
     crossGroup.add(vertGold, horizGold);
 
-    // Inner Glowing Ruby Core (slightly protruded)
-    const vertCore = new THREE.Mesh(new THREE.BoxGeometry(0.42, 3.22, 0.56), rubyCoreMat);
-    const horizCore = new THREE.Mesh(new THREE.BoxGeometry(1.92, 0.42, 0.56), rubyCoreMat);
+    // Inner Deep Crimson Core (slightly protruded)
+    const vertCore = new THREE.Mesh(new THREE.BoxGeometry(0.4, 3.1, 0.54), rubyCoreMat);
+    const horizCore = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.4, 0.54), rubyCoreMat);
     horizCore.position.y = 0.75;
     crossGroup.add(vertCore, horizCore);
 
     // ---- 2. Floating Radiant Halo Ring ----
-    const haloGeo = new THREE.TorusGeometry(1.25, 0.035, 16, 100);
+    const haloGeo = new THREE.TorusGeometry(1.2, 0.03, 16, 100);
     const haloMat = new THREE.MeshStandardMaterial({
       color: 0xe3c98a,
       emissive: 0xc9a24a,
-      emissiveIntensity: 0.6,
+      emissiveIntensity: 0.4,
       metalness: 0.8,
-      roughness: 0.2,
+      roughness: 0.25,
     });
     const haloRing = new THREE.Mesh(haloGeo, haloMat);
     haloRing.position.set(0, 0.75, 0);
@@ -83,14 +86,14 @@ export default function Hero3D() {
     const rayMat = new THREE.MeshBasicMaterial({
       color: 0xe3c98a,
       transparent: true,
-      opacity: 0.14,
+      opacity: 0.09,
       blending: THREE.AdditiveBlending,
     });
-    const rayCount = 48;
+    const rayCount = 42;
     const rays = [];
     for (let i = 0; i < rayCount; i++) {
-      const len = 3.8 + Math.random() * 3.2;
-      const geo = new THREE.CylinderGeometry(0.005, 0.035, len, 6);
+      const len = 3.6 + Math.random() * 3.0;
+      const geo = new THREE.CylinderGeometry(0.004, 0.03, len, 6);
       const ray = new THREE.Mesh(geo, rayMat.clone());
       const angle = (i / rayCount) * Math.PI * 2;
       const tilt = (Math.random() - 0.5) * 0.4;
@@ -98,13 +101,13 @@ export default function Hero3D() {
       ray.rotation.z = angle;
       ray.rotation.x = tilt;
       ray.translateY(len / 2);
-      ray.material.opacity = 0.06 + Math.random() * 0.16;
+      ray.material.opacity = 0.04 + Math.random() * 0.12;
       rays.push(ray);
       mainGroup.add(ray);
     }
 
     // ---- 4. Swirling Golden Spark Particle System ----
-    const particleCount = 240;
+    const particleCount = 200;
     const ptsGeo = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const initialY = new Float32Array(particleCount);
@@ -113,14 +116,14 @@ export default function Hero3D() {
     const angleArr = new Float32Array(particleCount);
 
     for (let i = 0; i < particleCount; i++) {
-      const r = 1.2 + Math.random() * 4.5;
+      const r = 1.2 + Math.random() * 4.2;
       const angle = Math.random() * Math.PI * 2;
-      const y = (Math.random() - 0.5) * 7;
+      const y = (Math.random() - 0.5) * 6.5;
 
       radiusArr[i] = r;
       angleArr[i] = angle;
       initialY[i] = y;
-      speedY[i] = 0.003 + Math.random() * 0.006;
+      speedY[i] = 0.003 + Math.random() * 0.005;
 
       positions[i * 3] = Math.cos(angle) * r;
       positions[i * 3 + 1] = y;
@@ -130,24 +133,24 @@ export default function Hero3D() {
     ptsGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     const ptsMat = new THREE.PointsMaterial({
       color: 0xf7e8c3,
-      size: 0.065,
+      size: 0.055,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.4,
       blending: THREE.AdditiveBlending,
     });
     const particleSystem = new THREE.Points(ptsGeo, ptsMat);
     mainGroup.add(particleSystem);
 
-    // ---- 5. Dynamic Lighting ----
-    const centerGlow = new THREE.PointLight(0xe3c98a, 18, 12);
+    // ---- 5. Dynamic Soft Lighting ----
+    const centerGlow = new THREE.PointLight(0xe3c98a, 10, 10);
     centerGlow.position.set(0, 0.75, 2);
     scene.add(centerGlow);
 
-    const sacredRedLight = new THREE.PointLight(0xc8102e, 12, 14);
+    const sacredRedLight = new THREE.PointLight(0x7a0d1e, 6, 12);
     sacredRedLight.position.set(-2.5, -1, 3);
     scene.add(sacredRedLight);
 
-    const rimLight = new THREE.PointLight(0xffffff, 8, 12);
+    const rimLight = new THREE.PointLight(0xffffff, 5, 10);
     rimLight.position.set(2.5, 3, 2);
     scene.add(rimLight);
 
