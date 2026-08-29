@@ -89,30 +89,33 @@ button{font-family:inherit; cursor:pointer;}
   transition:transform .35s var(--ease), background .3s ease, box-shadow .35s ease, border-color .3s ease, color .3s ease;
 }
 .btn-primary{
-  background:linear-gradient(135deg, #d41333 0%, #990a20 100%);
+  background:linear-gradient(135deg, rgba(212,19,51,0.42) 0%, rgba(153,10,32,0.42) 100%);
   color:var(--white);
-  border:1px solid rgba(255,255,255,0.18);
-  box-shadow:0 8px 24px -6px rgba(200,16,46,0.5);
+  border:1px solid rgba(255,255,255,0.22);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  box-shadow:0 8px 24px -6px rgba(200,16,46,0.4);
 }
 .btn-primary:hover{
-  background:linear-gradient(135deg, #e82343 0%, #b80d28 100%);
+  background:linear-gradient(135deg, rgba(232,35,67,0.68) 0%, rgba(184,13,40,0.68) 100%);
   border-color:var(--gold-soft);
   transform:translateY(-3px);
-  box-shadow:0 14px 32px -8px rgba(200,16,46,0.7);
+  box-shadow:0 14px 32px -8px rgba(200,16,46,0.65);
 }
 .btn-ghost{
-  border:1px solid rgba(201,162,74,0.45);
+  border:1px solid rgba(201,162,74,0.5);
   color:var(--gold-soft);
-  background:rgba(201,162,74,0.08);
-  backdrop-filter:blur(8px);
+  background:rgba(201,162,74,0.12);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
   box-shadow:0 4px 16px rgba(0,0,0,0.25);
 }
 .btn-ghost:hover{
   border-color:var(--gold);
   color:var(--white);
-  background:rgba(201,162,74,0.22);
+  background:rgba(201,162,74,0.28);
   transform:translateY(-3px);
-  box-shadow:0 10px 24px -6px rgba(201,162,74,0.35);
+  box-shadow:0 10px 24px -6px rgba(201,162,74,0.4);
 }
 .btn-outline{
   border:1px solid var(--gold);
