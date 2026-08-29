@@ -72,15 +72,23 @@ nav{
   transform:translateY(-1px);
 }
 .nav-cta{
-  background:var(--sacred-red); color:var(--white);
-  padding:8px 16px; font-size:13px; font-weight:600; letter-spacing:0.02em;
-  border-radius:var(--radius);
-  transition:background .3s ease, transform .3s var(--ease);
+  background:linear-gradient(135deg, var(--sacred-red) 0%, #a80a22 100%);
+  color:var(--white);
+  padding:8px 18px; font-size:13px; font-weight:600; letter-spacing:0.02em;
+  border-radius:4px;
+  border:1px solid rgba(255,255,255,0.15);
+  box-shadow:0 4px 14px rgba(200,16,46,0.35);
+  transition:all .3s var(--ease);
   white-space:nowrap;
   display:inline-flex;
   align-items:center;
 }
-.nav-cta:hover{ background:var(--ember); transform:translateY(-2px); }
+.nav-cta:hover{
+  background:linear-gradient(135deg, var(--ember) 0%, var(--sacred-red) 100%);
+  border-color:var(--gold-soft);
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(200,16,46,0.55);
+}
 
 /* Hamburger toggle */
 .nav-toggle{
