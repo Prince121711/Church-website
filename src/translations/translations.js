@@ -35,7 +35,7 @@ export const translations = {
       subheading: 'Come as you are. Every gathering is an open door — just show up.',
       items: [
         { day: 'Sunday', title: 'Sunday Worship', time: '8:30 AM – 10:30 AM', desc: 'Praise, divine word, and Holy Communion on the first Sunday of every month.' },
-        { day: 'Everyday', title: 'Morning Prayer', time: '5:00 AM', desc: "Start each day in God's presence with morning devotion and intercessory prayer." },
+        { day: 'Everyday', title: 'Morning Prayer', time: '05:00 AM – 06:00 AM', desc: "Start each day in God's presence with morning devotion and intercessory prayer." },
         { day: 'Friday', title: 'Fasting Prayer', time: '11:00 AM – 1:00 PM', desc: 'Dedicated time of fasting, worship, and seeking the Lord together.' },
       ],
     },
@@ -89,6 +89,8 @@ export const translations = {
     contact: {
       eyebrow: 'Reach Us',
       heading: "We'd love to meet you",
+      nameKey: 'Name',
+      nameVal: 'Pastor Suresh Simeon',
       addressKey: 'Address',
       addressVal: 'Kannankurichi, Salem, Tamilnadu, India — 636008',
       phoneKey: 'Phone',
@@ -151,7 +153,7 @@ export const translations = {
       subheading: 'அன்புடன் வரவேற்கிறோம். ஒவ்வொரு ஆராதனையும் உங்களுக்கான திறந்த கதவு.',
       items: [
         { day: 'ஞாயிறு', title: 'ஞாயிறு ஆராதனை', time: '8:30 AM – 10:30 AM', desc: 'துதி, தேவ செய்தி, மற்றும் மாதத்தின் முதல் ஞாயிறு திருவிருந்து ஆராதனை.' },
-        { day: 'தினசரி', title: 'காலை ஜெபம்', time: '5:00 AM', desc: 'காலை தியானம் மற்றும் பரிந்துரை ஜெபத்துடன் ஒவ்வொரு நாளையும் தொடங்குங்கள்.' },
+        { day: 'தினசரி', title: 'காலை ஜெபம்', time: '05:00 AM – 06:00 AM', desc: 'காலை தியானம் மற்றும் பரிந்துரை ஜெபத்துடன் ஒவ்வொரு நாளையும் தொடங்குங்கள்.' },
         { day: 'வெள்ளி', title: 'உபவாச ஜெபம்', time: '11:00 AM – 1:00 PM', desc: 'உபவாசம், துதி, மற்றும் கர்த்தரைத் தேடும் சிறப்பு ஜெப நேரம்.' },
       ],
     },
@@ -205,6 +207,8 @@ export const translations = {
     contact: {
       eyebrow: 'தொடர்புகொள்ள',
       heading: 'உங்களைச் சந்திக்க விரும்புகிறோம்',
+      nameKey: 'பெயர்',
+      nameVal: 'பாஸ்டர் சுரேஷ் சிமியோன்',
       addressKey: 'முகவரி',
       addressVal: 'கண்ணங்குறிச்சி, சேலம், தமிழ்நாடு, இந்தியா — 636008',
       phoneKey: 'தொலைபேசி',

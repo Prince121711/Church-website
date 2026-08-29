@@ -21,6 +21,10 @@ export default function Contact() {
           <span className="eyebrow">{t.contact.eyebrow}</span>
           <h2 style={{ margin: '16px 0 30px' }}>{t.contact.heading}</h2>
           <div className="item">
+            <div className="k">{t.contact.nameKey}</div>
+            <div className="v">{t.contact.nameVal}</div>
+          </div>
+          <div className="item">
             <div className="k">{t.contact.addressKey}</div>
             <div className="v">Elshaddai Ministries<span>{t.contact.addressVal}</span></div>
           </div>
