@@ -52,6 +52,9 @@ button{font-family:inherit; cursor:pointer;}
 }
 
 .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+@media (max-width:640px){
+  .wrap{ padding:0 18px; }
+}
 
 ::selection{background:var(--sacred-red); color:var(--white);}
 :focus-visible{outline:2px solid var(--gold); outline-offset:3px;}
@@ -89,6 +92,21 @@ button{font-family:inherit; cursor:pointer;}
 .btn-primary:hover{background:var(--ember); transform:translateY(-3px); box-shadow:0 14px 30px -12px rgba(200,16,46,0.55);}
 .btn-ghost{border:1px solid var(--hairline); color:var(--white); background:transparent;}
 .btn-ghost:hover{border-color:var(--gold); color:var(--gold-soft); transform:translateY(-3px);}
+.btn-outline{
+  border:1px solid var(--hairline);
+  color:var(--gold-soft);
+  background:transparent;
+  padding:10px 20px;
+  font-size:13px;
+  font-weight:600;
+  border-radius:var(--radius);
+  transition:border-color .3s ease, color .3s ease, transform .3s var(--ease);
+}
+.btn-outline:hover{
+  border-color:var(--gold);
+  color:var(--white);
+  transform:translateY(-2px);
+}
 
 /* ---------- scroll reveal ---------- */
 .reveal{

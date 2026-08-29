@@ -5,6 +5,7 @@ export default function Navbar() {
   const { lang, toggleLanguage, t } = useLanguage();
   const [active, setActive] = useState('');
   const [hidden, setHidden] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const links = [
     { href: '#about', label: t.nav.about },
@@ -21,7 +22,7 @@ export default function Navbar() {
 
     const onScroll = () => {
       const y = window.scrollY;
-      setHidden(y > lastY && y > 160);
+      setHidden(y > lastY && y > 160 && !menuOpen);
       lastY = y;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -41,12 +42,27 @@ export default function Navbar() {
       window.removeEventListener('scroll', onScroll);
       io.disconnect();
     };
-  }, [lang]);
+  }, [lang, menuOpen]);
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
+  const handleLinkClick = () => {
+    setMenuOpen(false);
+  };
 
   return (
     <header className={hidden ? 'hide' : ''}>
       <nav>
-        <a className="brand" href="#top">
+        <a className="brand" href="#top" onClick={() => setMenuOpen(false)}>
           <img src="assets/logo.png" alt="Elshaddai Ministries logo" />
           <div className="brand-name">Elshaddai <span>Ministries</span></div>
         </a>
@@ -57,31 +73,66 @@ export default function Navbar() {
             </a>
           ))}
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div className="nav-actions">
           <button
             onClick={toggleLanguage}
             className="lang-btn"
             title="Switch Language / மொழியை மாற்ற"
-            style={{
-              background: 'rgba(212, 175, 55, 0.15)',
-              border: '1px solid var(--gold)',
-              color: 'var(--gold-soft)',
-              padding: '6px 14px',
-              borderRadius: '20px',
-              cursor: 'pointer',
-              fontWeight: '600',
-              fontSize: '13px',
-              transition: 'all 0.3s ease',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-            }}
           >
             🌐 {t.nav.langToggle}
           </button>
           <a href="#give" className="nav-cta">{t.nav.give}</a>
+          <button
+            className={`nav-toggle ${menuOpen ? 'open' : ''}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle Navigation Menu"
+            aria-expanded={menuOpen}
+          >
+            <span className="hamburger-bar"></span>
+            <span className="hamburger-bar"></span>
+            <span className="hamburger-bar"></span>
+          </button>
         </div>
       </nav>
+
+      {/* Mobile Drawer Overlay */}
+      <div className={`mobile-drawer ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
+        <div className="mobile-drawer-backdrop" onClick={() => setMenuOpen(false)} />
+        <div className="mobile-drawer-content">
+          <div className="mobile-drawer-header">
+            <a className="brand" href="#top" onClick={handleLinkClick}>
+              <img src="assets/logo.png" alt="Elshaddai Ministries logo" />
+              <div className="brand-name">Elshaddai <span>Ministries</span></div>
+            </a>
+            <button className="mobile-close-btn" onClick={() => setMenuOpen(false)}>✕</button>
+          </div>
+          <div className="mobile-nav-links">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className={active === l.href ? 'active' : ''}
+                onClick={handleLinkClick}
+              >
+                {l.label}
+              </a>
+            ))}
+          </div>
+          <div className="mobile-drawer-footer">
+            <button
+              onClick={() => {
+                toggleLanguage();
+              }}
+              className="lang-btn mobile-lang-btn"
+            >
+              🌐 {t.nav.langToggle}
+            </button>
+            <a href="#give" className="btn btn-primary mobile-give-btn" onClick={handleLinkClick}>
+              {t.nav.give}
+            </a>
+          </div>
+        </div>
+      </div>
     </header>
   );
 }
