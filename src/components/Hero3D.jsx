@@ -179,11 +179,12 @@ export default function Hero3D() {
 
     // ---- Animation Loop ----
     let raf;
-    const clock = new THREE.Clock();
+    const timer = new THREE.Timer();
     const posAttr = ptsGeo.attributes.position;
 
     const animate = () => {
-      const elapsed = clock.getElapsedTime();
+      timer.update();
+      const elapsed = timer.getElapsed();
 
       if (!reducedMotion) {
         // Floating motion & rotation

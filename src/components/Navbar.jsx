@@ -60,6 +60,7 @@ export default function Navbar() {
   };
 
   return (
+    <>
     <header className={hidden ? 'hide' : ''}>
       <nav>
         <a className="brand" href="#top" onClick={() => setMenuOpen(false)}>
@@ -94,45 +95,46 @@ export default function Navbar() {
           </button>
         </div>
       </nav>
+    </header>
 
-      {/* Mobile Drawer Overlay */}
-      <div className={`mobile-drawer ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
-        <div className="mobile-drawer-backdrop" onClick={() => setMenuOpen(false)} />
-        <div className="mobile-drawer-content">
-          <div className="mobile-drawer-header">
-            <a className="brand" href="#top" onClick={handleLinkClick}>
-              <img src="assets/logo.png" alt="Elshaddai Ministries logo" />
-              <div className="brand-name">Elshaddai <span>Ministries</span></div>
-            </a>
-            <button className="mobile-close-btn" onClick={() => setMenuOpen(false)}>✕</button>
-          </div>
-          <div className="mobile-nav-links">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className={active === l.href ? 'active' : ''}
-                onClick={handleLinkClick}
-              >
-                {l.label}
-              </a>
-            ))}
-          </div>
-          <div className="mobile-drawer-footer">
-            <button
-              onClick={() => {
-                toggleLanguage();
-              }}
-              className="lang-btn mobile-lang-btn"
+    {/* Mobile Drawer Overlay — outside header to avoid backdrop-filter containment */}
+    <div className={`mobile-drawer ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
+      <div className="mobile-drawer-backdrop" onClick={() => setMenuOpen(false)} />
+      <div className="mobile-drawer-content">
+        <div className="mobile-drawer-header">
+          <a className="brand" href="#top" onClick={handleLinkClick}>
+            <img src="assets/logo.png" alt="Elshaddai Ministries logo" />
+            <div className="brand-name">Elshaddai <span>Ministries</span></div>
+          </a>
+          <button className="mobile-close-btn" onClick={() => setMenuOpen(false)}>✕</button>
+        </div>
+        <div className="mobile-nav-links">
+          {links.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className={active === l.href ? 'active' : ''}
+              onClick={handleLinkClick}
             >
-              🌐 {t.nav.langToggle}
-            </button>
-            <a href="#give" className="btn btn-primary mobile-give-btn" onClick={handleLinkClick}>
-              {t.nav.give}
+              {l.label}
             </a>
-          </div>
+          ))}
+        </div>
+        <div className="mobile-drawer-footer">
+          <button
+            onClick={() => {
+              toggleLanguage();
+            }}
+            className="lang-btn mobile-lang-btn"
+          >
+            🌐 {t.nav.langToggle}
+          </button>
+          <a href="#give" className="btn btn-primary mobile-give-btn" onClick={handleLinkClick}>
+            {t.nav.give}
+          </a>
         </div>
       </div>
-    </header>
+    </div>
+    </>
   );
 }
