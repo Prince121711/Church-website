@@ -13,7 +13,7 @@ export default function Events() {
         </div>
         <div className="event-list">
           {t.events.items.map((e, i) => (
-            <div className={`event-row reveal d${i + 1}`} key={e.title}>
+            <div className={`event-row reveal d${i + 1}`} key={`${e.d}-${e.m}-${e.title}-${i}`}>
               <div className="event-date"><span className="d">{e.d}</span><span className="m">{e.m}</span></div>
               <div className="event-info"><h4>{e.title}</h4><p>{e.desc}</p></div>
               <a href="#contact" className="btn btn-ghost">{t.events.learnMore}</a>
