@@ -1,4 +1,5 @@
 import { useState, lazy, Suspense } from 'react';
+import { createPortal } from 'react-dom';
 import useReveal from '../hooks/useReveal';
 import { useLanguage } from '../context/LanguageContext';
 import { SERMON_SCRIPTS } from '../data/sermonScripts';
@@ -260,11 +261,14 @@ export default function Sermons() {
       {/* Interactive Sermon Script Modal (lazy-loaded for code splitting) */}
       {selectedScriptId && (
         <Suspense fallback={
-          <div className="sermon-modal-backdrop">
-            <div style={{ color: 'var(--gold)', fontSize: '16px', textAlign: 'center' }}>
-              ⏳ {t.sermons.loadingScript || 'Loading...'}
-            </div>
-          </div>
+          createPortal(
+            <div className="sermon-modal-backdrop">
+              <div style={{ color: 'var(--gold)', fontSize: '16px', textAlign: 'center' }}>
+                ⏳ {t.sermons.loadingScript || 'Loading...'}
+              </div>
+            </div>,
+            document.body
+          )
         }>
           <SermonScriptModal
             key={selectedScriptId}

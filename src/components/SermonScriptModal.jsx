@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { SERMON_SCRIPTS } from '../data/sermonScripts';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -59,7 +60,7 @@ ${script.sections?.map(sec => `\n### ${sec.heading}\n${sec.desc || ''}\n${sec.sc
 
   const fontSizeClasses = ['font-sm', 'font-md', 'font-lg'];
 
-  return (
+  return createPortal(
     <div className="sermon-modal-backdrop" onClick={onClose} role="dialog" aria-modal="true">
       <div
         className={`sermon-modal-container ${fontSizeClasses[fontSizeLevel]}`}
@@ -332,6 +333,7 @@ ${script.sections?.map(sec => `\n### ${sec.heading}\n${sec.desc || ''}\n${sec.sc
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
