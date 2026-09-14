@@ -476,9 +476,14 @@ section{ position:relative; padding:80px 0; }
 }
 .view-channel-link:hover{ color:var(--gold); text-decoration:underline; }
 
+@keyframes tabFadeIn{
+  from{ opacity:0; transform:translateY(6px); }
+  to{ opacity:1; transform:translateY(0); }
+}
 /* Sermon Scripts Cards Grid */
 .sermon-scripts-grid{
   display:grid; grid-template-columns:repeat(4, 1fr); gap:18px;
+  animation:tabFadeIn .22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .script-card{
   background:var(--charcoal); border:1px solid var(--hairline); border-radius:6px;
@@ -510,7 +515,10 @@ section{ position:relative; padding:80px 0; }
 .script-read-link{ font-size:12px; color:var(--ember); font-weight:600; }
 
 /* Video Sermons Grid */
-.sermon-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.sermon-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+  animation:tabFadeIn .22s cubic-bezier(0.16, 1, 0.3, 1);
+}
 .sermon-card{
   background:var(--charcoal); border:1px solid var(--hairline); border-radius:4px; overflow:hidden;
   transition:transform .4s var(--ease), border-color .3s ease, box-shadow .4s ease;

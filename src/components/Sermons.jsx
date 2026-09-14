@@ -39,10 +39,10 @@ const SERMONS = [
 ];
 
 export default function Sermons() {
-  const ref = useReveal();
   const { t, lang } = useLanguage();
   const [activeTab, setActiveTab] = useState('all'); // 'all', 'scripts', 'videos'
   const [selectedScriptId, setSelectedScriptId] = useState(null);
+  const ref = useReveal([activeTab]);
 
   const latestScript = SERMON_SCRIPTS[0];
 
@@ -140,8 +140,8 @@ export default function Sermons() {
 
         {/* Sermon Scripts Section */}
         {(activeTab === 'all' || activeTab === 'scripts') && (
-          <div className="sermon-sub-section reveal">
-            <div className="sub-section-header">
+          <div className="sermon-sub-section">
+            <div className="sub-section-header reveal">
               <h3>
                 <span className="section-icon">📜</span>
                 {t.sermons.scriptsHeading}
@@ -153,7 +153,7 @@ export default function Sermons() {
               {SERMON_SCRIPTS.map((script, idx) => (
                 <div
                   key={script.id}
-                  className={`script-card reveal d${idx + 1}`}
+                  className="script-card"
                   onClick={() => setSelectedScriptId(script.id)}
                   role="button"
                   tabIndex={0}
@@ -183,8 +183,8 @@ export default function Sermons() {
 
         {/* Video Sermons Section */}
         {(activeTab === 'all' || activeTab === 'videos') && (
-          <div className="sermon-sub-section reveal">
-            <div className="sub-section-header">
+          <div className="sermon-sub-section">
+            <div className="sub-section-header reveal">
               <h3>
                 <span className="section-icon">🎥</span>
                 {t.sermons.videosHeading}
@@ -202,7 +202,7 @@ export default function Sermons() {
             <div className="sermon-grid">
               {SERMONS.map((s, i) => (
                 <div
-                  className={`sermon-card reveal d${i + 1}`}
+                  className="sermon-card"
                   key={s.id}
                 >
                   <a
@@ -215,6 +215,8 @@ export default function Sermons() {
                       <img
                         src={s.thumb}
                         alt={s.title}
+                        loading="lazy"
+                        decoding="async"
                         style={{
                           width: '100%',
                           height: '100%',
