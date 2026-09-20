@@ -96,7 +96,7 @@ nav{
 
 .nav-cta{
   background:linear-gradient(135deg, var(--sacred-red) 0%, #a80a22 100%);
-  color:var(--white);
+  color:#ffffff !important;
   padding:8px 18px; font-size:13px; font-weight:600; letter-spacing:0.02em;
   border-radius:4px;
   border:1px solid rgba(255,255,255,0.15);
@@ -1297,7 +1297,7 @@ section{ position:relative; padding:80px 0; }
 }
 
 /* ---------- GIVE ---------- */
-.give{ background:linear-gradient(180deg, var(--ink) 0%, #140d10 100%); text-align:center; }
+.give{ background:linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%); text-align:center; }
 .give h2{ font-size:clamp(22px, 4.4vw, 44px); max-width:620px; margin:12px auto 16px; }
 .give p{ color:var(--muted); max-width:520px; margin:0 auto 28px; font-size:14.5px; }
 .give-methods{ display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin-top:32px; }
