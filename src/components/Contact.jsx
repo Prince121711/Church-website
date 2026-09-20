@@ -184,7 +184,7 @@ export default function Contact() {
               📍 {lang === 'ta' ? 'சபை அமைவிடம்' : 'Find Us in Salem'}
             </h4>
             <a
-              href="https://maps.google.com/?q=Elshaddai+Ministries+Salem+Tamil+Nadu"
+              href="https://maps.app.goo.gl/QorqFVtjpcJeqfgV6"
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-outline"
@@ -195,7 +195,7 @@ export default function Contact() {
           </div>
           <iframe
             title="Elshaddai Ministries Location Map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62512.45423851532!2d78.1130456486328!3d11.664325499999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babf1b1c3182897%3A0xb351a8f89552d431!2sSalem%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3906.5!2d78.1130456!3d11.664325!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babf1ee3cb61eeb%3A0xdbf6395f311879a0!2sElshaddai%20Church!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
             width="100%"
             height="320"
             style={{

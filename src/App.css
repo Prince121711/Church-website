@@ -702,7 +702,24 @@ section{ position:relative; padding:80px 0; }
   from{ transform:scale(0.96); opacity:0; } to{ transform:scale(1); opacity:1; }
 }
 
-/* Sermon Modal — Mobile Full-Screen */
+/* Sermon Modal — Tablet Full-Screen */
+@media (max-width:768px){
+  .sermon-modal-backdrop{ padding:8px; }
+  .sermon-modal-container{
+    max-width:100%; max-height:100vh; max-height:100dvh;
+    border-radius:6px;
+  }
+  .sermon-modal-body{ padding:20px 22px; }
+  .sermon-hero-banner{ padding:16px 18px; gap:16px; }
+  .hero-theme-badge{ min-width:160px; }
+  .sermon-main-title{ font-size:20px; }
+  .items-grid{ grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); }
+  .takeaways-deck{ grid-template-columns:1fr; }
+  .bulletin-header-frame{ flex-wrap:wrap; gap:12px; }
+  .b-church-meta h2{ font-size:17px; }
+}
+
+/* Sermon Modal — Small Tablet / Large Phone */
 @media (max-width:600px){
   .sermon-modal-backdrop{ padding:0; }
   .sermon-modal-container{
@@ -718,7 +735,44 @@ section{ position:relative; padding:80px 0; }
   .modal-close-btn{ order:4; width:30px; height:30px; font-size:14px; }
   .sermon-dates-nav{ padding:8px 14px; }
   .date-nav-btn .d-title{ font-size:11px; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .sermon-modal-body{ padding:16px 16px; }
+  /* Stack hero banner vertically */
+  .sermon-hero-banner{ flex-direction:column; gap:14px; padding:14px 16px; }
+  .hero-theme-badge{ min-width:unset; width:100%; text-align:center; }
+  .sermon-main-title{ font-size:19px; }
+  .sermon-en-title{ font-size:12px; }
+  .speaker-badge{ font-size:11.5px; }
+  /* Stack bulletin header */
+  .bulletin-header-frame{ flex-direction:column; align-items:flex-start; gap:12px; }
+  .b-cross{ width:34px; height:34px; font-size:20px; }
+  .b-church-meta h2{ font-size:16px; }
+  .b-tamil-name{ font-size:12.5px; }
+  .b-service-pill{ text-align:left; flex-direction:row; gap:10px; width:100%; }
+  /* Single column items */
+  .items-grid{ grid-template-columns:1fr; gap:10px; }
+  .takeaways-deck{ grid-template-columns:1fr; }
+  /* Key verse */
+  .key-verse-card{ padding:14px 16px; }
+  .verse-text{ font-size:13.5px; }
+  /* Section blocks */
+  .section-block{ padding:14px 16px; }
+  .section-title{ font-size:15px; }
+  .section-desc{ font-size:12.5px; }
+  .sc-text{ font-size:12.5px; }
+  .scripture-item{ padding:10px 14px; }
+  /* Takeaway / Golden quote */
+  .golden-quote-card{ padding:14px 16px; }
+  .golden-quote-card blockquote{ font-size:13.5px; }
+  .takeaway-box{ padding:14px; }
+  .takeaway-box h4{ font-size:13px; }
+  .takeaway-box p{ font-size:12px; }
+  /* Footer blessing */
+  .bulletin-footer-blessing{ padding:14px 0 4px; }
+  .f-grace{ font-size:12.5px; }
+  .f-church{ font-size:11px; }
 }
+
+/* Sermon Modal — Small Phone */
 @media (max-width:400px){
   .sermon-modal-bar{ padding:8px 10px; }
   .bulletin-tag{ font-size:10.5px; gap:4px; }
@@ -726,6 +780,48 @@ section{ position:relative; padding:80px 0; }
   .font-btn{ padding:3px 6px; font-size:10px; }
   .action-icon-btn{ width:28px; height:28px; }
   .modal-close-btn{ width:28px; height:28px; font-size:13px; }
+  .sermon-modal-body{ padding:12px 12px; }
+  .sermon-hero-banner{ padding:12px 12px; }
+  .sermon-main-title{ font-size:17px; }
+  .hero-theme-badge{ padding:10px 12px; }
+  .theme-quote{ font-size:15px; }
+  .key-verse-card{ padding:12px 12px; }
+  .verse-text{ font-size:13px; line-height:1.5; }
+  .verse-ref{ font-size:12px; }
+  .section-block{ padding:12px 12px; margin-bottom:14px; }
+  .section-title{ font-size:14px; gap:6px; }
+  .item-tile{ padding:10px 12px; gap:10px; }
+  .item-num{ width:22px; height:22px; font-size:10.5px; }
+  .item-info h4{ font-size:13px; }
+  .item-info p{ font-size:11.5px; }
+  .burden-box{ padding:12px 14px; }
+  .burden-box h4{ font-size:13.5px; }
+  .burden-box ul{ font-size:12px; padding-left:16px; }
+  .date-nav-btn{ padding:5px 10px; }
+  .date-nav-btn .d-chip{ font-size:10px; }
+  .date-nav-btn .d-title{ font-size:10.5px; max-width:100px; }
+}
+
+/* Sermon Modal — Ultra-Small Phone */
+@media (max-width:320px){
+  .sermon-modal-bar{ padding:6px 8px; gap:6px; }
+  .bulletin-tag{ font-size:9.5px; }
+  .sermon-modal-body{ padding:10px 10px; }
+  .sermon-hero-banner{ padding:10px 10px; gap:10px; }
+  .sermon-main-title{ font-size:16px; }
+  .hero-theme-badge{ padding:8px 10px; }
+  .theme-quote{ font-size:14px; }
+  .theme-meaning{ font-size:10px; }
+  .speaker-badge{ font-size:10.5px; padding:3px 8px; }
+  .key-verse-card{ padding:10px 10px; }
+  .section-block{ padding:10px 10px; margin-bottom:12px; }
+  .golden-quote-card{ padding:12px; }
+  .takeaway-box{ padding:12px; }
+  .f-grace{ font-size:12px; }
+  .f-church{ font-size:10.5px; }
+  .mode-btn{ font-size:10px; padding:3px 6px; }
+  .action-icon-btn{ width:26px; height:26px; }
+  .modal-close-btn{ width:26px; height:26px; font-size:12px; }
 }
 
 /* Font Size Level Controls */
@@ -811,8 +907,7 @@ section{ position:relative; padding:80px 0; }
 .sermon-modal-body{
   padding:24px 28px; overflow-y:auto; flex:1; -webkit-overflow-scrolling:touch;
 }
-@media (max-width:600px){ .sermon-modal-body{ padding:14px 16px; } }
-@media (max-width:360px){ .sermon-modal-body{ padding:12px 12px; } }
+/* Modal body responsive padding handled in responsive breakpoints above */
 
 /* Church Header Frame (Bulletin Style) */
 .bulletin-header-frame{
@@ -834,18 +929,7 @@ section{ position:relative; padding:80px 0; }
   border:1px solid rgba(201,162,74,0.25); padding:6px 10px; border-radius:4px; flex-shrink:0;
 }
 
-/* Bulletin header mobile stacking */
-@media (max-width:500px){
-  .bulletin-header-frame{
-    flex-direction:column; align-items:flex-start; gap:12px;
-  }
-  .b-cross{ width:34px; height:34px; font-size:20px; }
-  .b-church-meta h2{ font-size:16px; }
-  .b-tamil-name{ font-size:12.5px; }
-  .b-service-pill{
-    text-align:left; flex-direction:row; gap:10px; width:100%;
-  }
-}
+/* Bulletin header mobile stacking handled in responsive breakpoints above */
 
 /* Sermon Hero Banner */
 .sermon-hero-banner{
