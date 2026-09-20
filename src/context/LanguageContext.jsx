@@ -1,7 +1,6 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { translations } from '../translations/translations';
-
-const LanguageContext = createContext();
+import { LanguageContext } from './languageContextDef.js';
 
 export function LanguageProvider({ children }) {
   const [lang, setLang] = useState('en');
@@ -23,12 +22,4 @@ export function LanguageProvider({ children }) {
       {children}
     </LanguageContext.Provider>
   );
-}
-
-export function useLanguage() {
-  const context = useContext(LanguageContext);
-  if (!context) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
-  }
-  return context;
 }

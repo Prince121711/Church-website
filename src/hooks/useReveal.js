@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../context/useLanguage';
 
 // Attaches an IntersectionObserver to a container and adds the "in" class
 // to any descendant with the "reveal" class once it enters or nears the viewport.
@@ -8,6 +8,9 @@ import { useLanguage } from '../context/LanguageContext';
 export default function useReveal(deps = []) {
   const ref = useRef(null);
   const { lang } = useLanguage();
+
+  // Serialize external deps into a stable string key for the effect dependency array
+  const depsKey = JSON.stringify(deps);
 
   useEffect(() => {
     const root = ref.current;
@@ -61,7 +64,7 @@ export default function useReveal(deps = []) {
       io.disconnect();
       mo.disconnect();
     };
-  }, [lang, ...deps]);
+  }, [lang, depsKey]);
 
   return ref;
 }

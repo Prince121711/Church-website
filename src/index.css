@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap');
-
 :root{
   --ink:#0b0b0d;
   --ink-2:#131217;
@@ -13,10 +11,68 @@
   --gold-soft:#e3c98a;
   --white:#f7f4ee;
   --muted:#a9a5ad;
-  --muted-2:#75717c;
+  --muted-2:#918d98;
   --radius:2px;
   --maxw:1180px;
   --ease:cubic-bezier(.22,.68,0,1.01);
+}
+
+[data-theme="light"] {
+  --ink: #fcfbf8;
+  --ink-2: #f4f0e6;
+  --charcoal: #ebe4d5;
+  --charcoal-2: #ded5c2;
+  --hairline: #d1c6af;
+  --sacred-red: #c0122e;
+  --deep-red: #7c0b1d;
+  --ember: #d63d34;
+  --gold: #9d7b27;
+  --gold-soft: #6d5415;
+  --white: #16151a;
+  --muted: #4e4a54;
+  --muted-2: #5c5763;
+}
+
+[data-theme="light"] header {
+  background: rgba(252, 251, 248, 0.94);
+  border-bottom: 1px solid var(--hairline);
+}
+[data-theme="light"] .mobile-drawer-content {
+  background: var(--ink-2);
+}
+[data-theme="light"] .contact-map-wrapper iframe {
+  filter: none !important;
+}
+[data-theme="light"] .daily-verse-card {
+  background: linear-gradient(135deg, rgba(235, 228, 213, 0.9) 0%, rgba(244, 240, 230, 0.98) 100%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+[data-theme="light"] .sermon-spotlight-card {
+  background: linear-gradient(135deg, rgba(192, 18, 46, 0.07) 0%, rgba(157, 123, 39, 0.08) 50%, var(--charcoal) 100%), var(--charcoal);
+  box-shadow: 0 16px 36px -12px rgba(0,0,0,0.12);
+}
+
+
+/* Accessibility: Skip to main content */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: var(--sacred-red);
+  color: var(--white);
+  padding: 10px 18px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 14px;
+  z-index: 10000;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 16px;
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
 }
 
 *{box-sizing:border-box; margin:0; padding:0;}
@@ -124,7 +180,7 @@ button{font-family:inherit; cursor:pointer;}
 .btn-outline{
   border:1px solid var(--gold);
   color:var(--gold-soft);
-  background:rgba(11,11,13,0.6);
+  background:rgba(201,162,74,0.08);
   padding:10px 22px;
   font-size:13px;
   font-weight:600;
@@ -134,7 +190,7 @@ button{font-family:inherit; cursor:pointer;}
 .btn-outline:hover{
   border-color:var(--gold-soft);
   color:var(--white);
-  background:rgba(201,162,74,0.2);
+  background:rgba(201,162,74,0.22);
   transform:translateY(-2px);
   box-shadow:0 6px 18px rgba(201,162,74,0.25);
 }
@@ -271,3 +327,85 @@ button{font-family:inherit; cursor:pointer;}
   line-height: 1.3;
 }
 
+/* ================================================================
+   LARGE SCREEN ENHANCEMENTS (1440px+)
+   ================================================================ */
+@media (min-width:1440px){
+  :root{ --maxw:1320px; }
+  section{ padding:100px 0; }
+  .wrap{ padding:0 40px; }
+  .section-head h2{ font-size:clamp(28px, 3.5vw, 48px); }
+  .section-head p{ font-size:15.5px; }
+  .btn{ padding:17px 34px; font-size:15px; }
+}
+
+@media (min-width:1920px){
+  :root{ --maxw:1480px; }
+  section{ padding:120px 0; }
+  .wrap{ padding:0 48px; }
+  body{ font-size:16.5px; }
+  .section-head h2{ font-size:clamp(32px, 3vw, 54px); }
+  .section-head p{ font-size:16px; line-height:1.7; }
+  .btn{ padding:18px 38px; font-size:15.5px; }
+}
+
+@media (min-width:2560px){
+  :root{ --maxw:1680px; }
+  section{ padding:140px 0; }
+  body{ font-size:17px; }
+}
+
+/* ================================================================
+   iOS SAFE AREA INSET SUPPORT
+   ================================================================ */
+@supports (padding: env(safe-area-inset-top)){
+  header{
+    padding-top:env(safe-area-inset-top);
+  }
+  .scroll-progress{
+    top:env(safe-area-inset-top);
+  }
+  .to-top{
+    right:calc(14px + env(safe-area-inset-right));
+    bottom:calc(14px + env(safe-area-inset-bottom));
+  }
+  .mobile-drawer-content{
+    padding-bottom:calc(20px + env(safe-area-inset-bottom));
+  }
+  footer{
+    padding-bottom:calc(24px + env(safe-area-inset-bottom));
+  }
+}
+
+/* ================================================================
+   LANDSCAPE PHONE OPTIMIZATION
+   ================================================================ */
+@media (max-height:500px) and (orientation:landscape){
+  .hero{
+    min-height:auto;
+    padding-top:52px;
+    padding-bottom:20px;
+  }
+  .hero-inner{ padding:6px 20px 24px; }
+  .hero h1{ font-size:clamp(20px, 4vw, 32px); }
+  .hero p.lede{ font-size:13px; }
+  .hero-ctas{ margin-top:20px; margin-bottom:16px; gap:10px; }
+  .hero-ctas .btn{ padding:10px 20px; font-size:13px; }
+  .hero-strip{ padding-top:12px; gap:12px; }
+  .scroll-cue{ display:none; }
+  section{ padding:40px 0; }
+  .section-head{ margin-bottom:20px; }
+}
+
+/* ================================================================
+   EXTRA-SMALL SCREEN (320px) BASE ADJUSTMENTS
+   ================================================================ */
+@media (max-width:320px){
+  .wrap{ padding:0 10px; }
+  .btn{ padding:12px 18px; font-size:13px; }
+  .btn-ghost{ padding:10px 16px; }
+  .eyebrow{ font-size:10.5px; letter-spacing:0.16em; gap:8px; }
+  .eyebrow::before{ width:16px; }
+  .section-head h2{ font-size:clamp(20px, 5vw, 28px); }
+  .section-head p{ font-size:13px; }
+}

@@ -9,14 +9,15 @@ export default function Hero3D() {
     if (!mount) return;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.innerWidth < 600;
 
     // ---- Scene Setup ----
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, mount.clientWidth / mount.clientHeight, 0.1, 100);
     camera.position.set(0, 0, 8.5);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const renderer = new THREE.WebGLRenderer({ antialias: !isMobile, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     mount.appendChild(renderer.domElement);
 
@@ -28,9 +29,9 @@ export default function Hero3D() {
 
     // Responsive scale & position
     const updateScale = () => {
-      const isMobile = window.innerWidth < 600;
-      mainGroup.scale.setScalar(isMobile ? 0.72 : 0.95);
-      mainGroup.position.y = isMobile ? -1.95 : -1.85;
+      const mobile = window.innerWidth < 600;
+      mainGroup.scale.setScalar(mobile ? 0.72 : 0.95);
+      mainGroup.position.y = mobile ? -1.95 : -1.85;
     };
     updateScale();
 
@@ -107,7 +108,7 @@ export default function Hero3D() {
     }
 
     // ---- 4. Swirling Golden Spark Particle System ----
-    const particleCount = 240;
+    const particleCount = isMobile ? 120 : 240;
     const ptsGeo = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const initialY = new Float32Array(particleCount);
@@ -133,9 +134,9 @@ export default function Hero3D() {
     ptsGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     const ptsMat = new THREE.PointsMaterial({
       color: 0xfff0c9,
-      size: 0.075,
+      size: isMobile ? 0.06 : 0.075,
       transparent: true,
-      opacity: 0.55,
+      opacity: isMobile ? 0.45 : 0.55,
       blending: THREE.AdditiveBlending,
     });
     const particleSystem = new THREE.Points(ptsGeo, ptsMat);

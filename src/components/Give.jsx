@@ -1,5 +1,5 @@
 import useReveal from '../hooks/useReveal';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../context/useLanguage';
 
 export default function Give() {
   const ref = useReveal();

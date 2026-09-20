@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { SERMON_SCRIPTS } from '../data/sermonScripts';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../context/useLanguage';
 
 export default function SermonScriptModal({ activeScriptId, onClose }) {
   const { lang } = useLanguage();
@@ -9,6 +9,23 @@ export default function SermonScriptModal({ activeScriptId, onClose }) {
   const [viewMode, setViewMode] = useState('reader'); // 'reader' or 'bulletin'
   const [copied, setCopied] = useState(false);
   const [fontSizeLevel, setFontSizeLevel] = useState(1); // 0 = standard, 1 = comfortable, 2 = large
+
+  const modalRef = useRef(null);
+  const prevActiveElement = useRef(null);
+
+  // Restore focus to opener element when modal closes
+  useEffect(() => {
+    prevActiveElement.current = document.activeElement;
+    if (modalRef.current) {
+      const closeBtn = modalRef.current.querySelector('.modal-close-btn');
+      if (closeBtn) closeBtn.focus();
+    }
+    return () => {
+      if (prevActiveElement.current && prevActiveElement.current.focus) {
+        prevActiveElement.current.focus();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -20,6 +37,27 @@ export default function SermonScriptModal({ activeScriptId, onClose }) {
       if (e.key === 'ArrowRight') {
         const currIdx = SERMON_SCRIPTS.findIndex(s => s.id === selectedId);
         if (currIdx < SERMON_SCRIPTS.length - 1) setSelectedId(SERMON_SCRIPTS[currIdx + 1].id);
+      }
+      // Focus trap within modal
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusables = modalRef.current.querySelectorAll(
+          'button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusables.length > 0) {
+          const first = focusables[0];
+          const last = focusables[focusables.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            }
+          } else {
+            if (document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -61,8 +99,9 @@ ${script.sections?.map(sec => `\n### ${sec.heading}\n${sec.desc || ''}\n${sec.sc
   const fontSizeClasses = ['font-sm', 'font-md', 'font-lg'];
 
   return createPortal(
-    <div className="sermon-modal-backdrop" onClick={onClose} role="dialog" aria-modal="true">
+    <div className="sermon-modal-backdrop" onClick={onClose} role="dialog" aria-modal="true" aria-label="Sermon Script & Notes">
       <div
+        ref={modalRef}
         className={`sermon-modal-container ${fontSizeClasses[fontSizeLevel]}`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -149,7 +188,7 @@ ${script.sections?.map(sec => `\n### ${sec.heading}\n${sec.desc || ''}\n${sec.sc
               type="button"
               className="modal-close-btn"
               onClick={onClose}
-              aria-label="Close"
+              aria-label="Close sermon notes"
             >
               ✕
             </button>
@@ -174,7 +213,7 @@ ${script.sections?.map(sec => `\n### ${sec.heading}\n${sec.desc || ''}\n${sec.sc
         </div>
 
         {/* Modal Scrollable Content */}
-        <div className={`sermon-modal-body ${viewMode === 'bulletin' ? 'bulletin-styled' : 'reader-styled'}`}>
+        <div className={`sermon-modal-body ${viewMode === 'bulletin' ? 'bulletin-styled' : 'reader-styled'}`} lang="ta">
           {/* Printable Church Letterhead Header */}
           <div className="bulletin-header-frame">
             <div className="b-cross">✚</div>

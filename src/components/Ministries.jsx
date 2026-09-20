@@ -1,5 +1,7 @@
 import useReveal from '../hooks/useReveal';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../context/useLanguage';
+
+const MINISTRY_ICONS = ['👨‍👩‍👧‍👦', '⚡', '🙏', '🤝'];
 
 export default function Ministries() {
   const ref = useReveal();
@@ -15,7 +17,9 @@ export default function Ministries() {
         <div className="min-grid">
           {t.ministries.items.map((m, i) => (
             <div className={`min-card reveal d${(i % 4) + 1}`} key={m.title}>
-              <div className="ico" />
+              <div className="ico" aria-hidden="true">
+                {MINISTRY_ICONS[i % MINISTRY_ICONS.length]}
+              </div>
               <h4>{m.title}</h4>
               <p>{m.desc}</p>
             </div>

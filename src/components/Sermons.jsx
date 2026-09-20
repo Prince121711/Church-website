@@ -1,13 +1,11 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, useMemo, lazy, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import useReveal from '../hooks/useReveal';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../context/useLanguage';
 import { SERMON_SCRIPTS } from '../data/sermonScripts';
 
-// Lazy load the modal for code-splitting (Fix 5: reduces main bundle size)
 const SermonScriptModal = lazy(() => import('./SermonScriptModal'));
 
-// Fix 2: Each video maps to a specific sermon script via scriptId
 const SERMONS = [
   {
     id: 'd98aiAg_cB4',
@@ -42,9 +40,38 @@ export default function Sermons() {
   const { t, lang } = useLanguage();
   const [activeTab, setActiveTab] = useState('all'); // 'all', 'scripts', 'videos'
   const [selectedScriptId, setSelectedScriptId] = useState(null);
-  const ref = useReveal([activeTab]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const ref = useReveal([activeTab, searchQuery]);
 
   const latestScript = SERMON_SCRIPTS[0];
+
+  const q = searchQuery.toLowerCase().trim();
+
+  const filteredScripts = useMemo(() => {
+    if (!q) return SERMON_SCRIPTS;
+    return SERMON_SCRIPTS.filter((s) => {
+      return (
+        s.title?.toLowerCase().includes(q) ||
+        s.englishTitle?.toLowerCase().includes(q) ||
+        s.themeWord?.toLowerCase().includes(q) ||
+        s.keyVerse?.toLowerCase().includes(q) ||
+        s.keyVerseText?.toLowerCase().includes(q) ||
+        s.speaker?.toLowerCase().includes(q) ||
+        s.speakerEn?.toLowerCase().includes(q)
+      );
+    });
+  }, [q]);
+
+  const filteredVideos = useMemo(() => {
+    if (!q) return SERMONS;
+    return SERMONS.filter((s) => {
+      return (
+        s.title?.toLowerCase().includes(q) ||
+        s.desc?.toLowerCase().includes(q) ||
+        s.tag?.toLowerCase().includes(q)
+      );
+    });
+  }, [q]);
 
   return (
     <section className="sermons" id="sermons" ref={ref}>
@@ -69,9 +96,13 @@ export default function Sermons() {
             </a>
 
             {/* Filter Tabs */}
-            <div className="sermons-filter-pills">
+            <div className="sermons-filter-pills" role="tablist" aria-label="Filter sermon content">
               <button
                 type="button"
+                role="tab"
+                id="tab-all"
+                aria-selected={activeTab === 'all'}
+                aria-label="Show all sermons and scripts"
                 className={`filter-pill ${activeTab === 'all' ? 'active' : ''}`}
                 onClick={() => setActiveTab('all')}
               >
@@ -79,24 +110,57 @@ export default function Sermons() {
               </button>
               <button
                 type="button"
+                role="tab"
+                id="tab-scripts"
+                aria-selected={activeTab === 'scripts'}
+                aria-label="Show sermon scripts notes only"
                 className={`filter-pill ${activeTab === 'scripts' ? 'active' : ''}`}
                 onClick={() => setActiveTab('scripts')}
               >
-                📜 {t.sermons.tabScripts} ({SERMON_SCRIPTS.length})
+                📜 {t.sermons.tabScripts} ({filteredScripts.length})
               </button>
               <button
                 type="button"
+                role="tab"
+                id="tab-videos"
+                aria-selected={activeTab === 'videos'}
+                aria-label="Show sermon video recordings only"
                 className={`filter-pill ${activeTab === 'videos' ? 'active' : ''}`}
                 onClick={() => setActiveTab('videos')}
               >
-                🎥 {t.sermons.tabVideos} ({SERMONS.length})
+                🎥 {t.sermons.tabVideos} ({filteredVideos.length})
               </button>
             </div>
           </div>
+
+            {/* Real-time Sermon Search Bar */}
+            <div className="sermons-search-bar" role="search">
+              <span className="search-icon" aria-hidden="true">🔍</span>
+              <input
+                id="sermon-search"
+                name="sermon-search"
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={lang === 'ta' ? 'செய்தி தலைப்பு, வசனம் அல்லது வார்த்தையை தேடுங்கள்...' : 'Search sermon by title, verse, or keyword...'}
+                aria-label="Search sermons"
+                className="sermons-search-input"
+              />
+            {searchQuery && (
+              <button
+                type="button"
+                className="search-clear-btn"
+                onClick={() => setSearchQuery('')}
+                aria-label="Clear search query"
+              >
+                ✕
+              </button>
+            )}
+          </div>
         </div>
 
-        {/* Featured Latest Sermon Script Spotlight Banner */}
-        {latestScript && (
+        {/* Featured Latest Sermon Script Spotlight Banner (shown when no search query) */}
+        {!q && latestScript && (
           <div className="sermon-spotlight-card reveal">
             <div className="spotlight-badge-row">
               <span className="spotlight-badge">
@@ -146,38 +210,44 @@ export default function Sermons() {
                 <span className="section-icon">📜</span>
                 {t.sermons.scriptsHeading}
               </h3>
-              <span className="sub-count">{SERMON_SCRIPTS.length} {t.sermons.editionsLabel}</span>
+              <span className="sub-count">{filteredScripts.length} {t.sermons.editionsLabel}</span>
             </div>
 
-            <div className="sermon-scripts-grid">
-              {SERMON_SCRIPTS.map((script, idx) => (
-                <div
-                  key={script.id}
-                  className="script-card"
-                  onClick={() => setSelectedScriptId(script.id)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === 'Enter' && setSelectedScriptId(script.id)}
-                >
-                  <div className="script-card-top">
-                    <span className="script-date-pill">📅 {script.displayDate}</span>
-                    <span className="script-theme-tag">"{script.themeWord}"</span>
-                  </div>
+            {filteredScripts.length === 0 ? (
+              <p className="sermons-empty-notice" style={{ padding: '24px', textAlign: 'center', color: 'var(--muted)', background: 'var(--charcoal)', borderRadius: '6px' }}>
+                {lang === 'ta' ? 'தேடலுக்குரிய செய்தி குறிப்புகள் எதுவும் கிடைக்கவில்லை.' : 'No sermon scripts matching your search.'}
+              </p>
+            ) : (
+              <div className="sermon-scripts-grid">
+                {filteredScripts.map((script) => (
+                  <div
+                    key={script.id}
+                    className="script-card"
+                    onClick={() => setSelectedScriptId(script.id)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => e.key === 'Enter' && setSelectedScriptId(script.id)}
+                  >
+                    <div className="script-card-top">
+                      <span className="script-date-pill">📅 {script.displayDate}</span>
+                      <span className="script-theme-tag">"{script.themeWord}"</span>
+                    </div>
 
-                  <h4 className="script-card-title">{script.title}</h4>
-                  <p className="script-card-snippet">
-                    "{script.keyVerseText.substring(0, 110)}..."
-                  </p>
+                    <h4 className="script-card-title">{script.title}</h4>
+                    <p className="script-card-snippet">
+                      "{script.keyVerseText.substring(0, 110)}..."
+                    </p>
 
-                  <div className="script-card-footer">
-                    <span className="script-verse-pill">📖 {script.keyVerse}</span>
-                    <span className="script-read-link">
-                      {t.sermons.readScript} →
-                    </span>
+                    <div className="script-card-footer">
+                      <span className="script-verse-pill">📖 {script.keyVerse}</span>
+                      <span className="script-read-link">
+                        {t.sermons.readScript} →
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
@@ -199,68 +269,78 @@ export default function Sermons() {
               </a>
             </div>
 
-            <div className="sermon-grid">
-              {SERMONS.map((s, i) => (
-                <div
-                  className="sermon-card"
-                  key={s.id}
-                >
-                  <a
-                    href={s.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
+            {filteredVideos.length === 0 ? (
+              <p className="sermons-empty-notice" style={{ padding: '24px', textAlign: 'center', color: 'var(--muted)', background: 'var(--charcoal)', borderRadius: '6px' }}>
+                {lang === 'ta' ? 'தேடலுக்குரிய வீடியோ செய்திகள் எதுவும் கிடைக்கவில்லை.' : 'No sermon videos matching your search.'}
+              </p>
+            ) : (
+              <div className="sermon-grid">
+                {filteredVideos.map((s) => (
+                  <div
+                    className="sermon-card"
+                    key={s.id}
                   >
-                    <div className="sermon-thumb">
-                      <img
-                        src={s.thumb}
-                        alt={s.title}
-                        loading="lazy"
-                        decoding="async"
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          opacity: 0.88,
-                          transition: 'transform 0.4s ease, opacity 0.3s ease',
-                        }}
-                      />
-                    </div>
-                    <div className="sermon-body">
-                      <span className="tag">{s.tag}</span>
-                      <h4>{s.title}</h4>
-                      <p>{s.desc}</p>
-                    </div>
-                  </a>
-                  <div className="sermon-card-actions">
                     <a
                       href={s.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="card-action-btn yt"
+                      style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
                     >
-                      ▶ {t.sermons.watchVideo}
+                      <div className="sermon-thumb">
+                        <img
+                          src={s.thumb}
+                          alt={s.title}
+                          loading="lazy"
+                          decoding="async"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = 'assets/logo.png';
+                          }}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            opacity: 0.88,
+                            transition: 'transform 0.4s ease, opacity 0.3s ease',
+                          }}
+                        />
+                      </div>
+                      <div className="sermon-body">
+                        <span className="tag">{s.tag}</span>
+                        <h4>{s.title}</h4>
+                        <p>{s.desc}</p>
+                      </div>
                     </a>
-                    <button
-                      type="button"
-                      className="card-action-btn notes"
-                      onClick={() => setSelectedScriptId(
-                        s.scriptId && SERMON_SCRIPTS.find(sc => sc.id === s.scriptId)
-                          ? s.scriptId
-                          : SERMON_SCRIPTS[0].id
-                      )}
-                    >
-                      📖 {t.sermons.sermonScript}
-                    </button>
+                    <div className="sermon-card-actions">
+                      <a
+                        href={s.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="card-action-btn yt"
+                      >
+                        ▶ {t.sermons.watchVideo}
+                      </a>
+                      <button
+                        type="button"
+                        className="card-action-btn notes"
+                        onClick={() => setSelectedScriptId(
+                          s.scriptId && SERMON_SCRIPTS.find(sc => sc.id === s.scriptId)
+                            ? s.scriptId
+                            : SERMON_SCRIPTS[0].id
+                        )}
+                      >
+                        📖 {t.sermons.sermonScript}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>
 
-      {/* Interactive Sermon Script Modal (lazy-loaded for code splitting) */}
+      {/* Interactive Sermon Script Modal */}
       {selectedScriptId && (
         <Suspense fallback={
           createPortal(

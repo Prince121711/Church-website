@@ -18,6 +18,9 @@ export const translations = {
       subheading: 'A house of prayer, praise, and restoration for all people.',
       ctaPrimary: 'Join Us This Sunday',
       ctaSecondary: 'Watch a Sermon',
+      statsYears: 'Years of Grace',
+      statsBelievers: 'Believers & Families',
+      statsServices: 'Weekly Gatherings',
     },
     about: {
       eyebrow: 'Our Heart',
@@ -148,6 +151,9 @@ export const translations = {
       subheading: 'எல்லா மக்களுக்காகவும் ஜெபம், துதி மற்றும் மீட்பின் சபை.',
       ctaPrimary: 'இந்த ஞாயிறு ஆராதனையில் இணையுங்கள்',
       ctaSecondary: 'பிரசங்கங்களைப் பாருங்கள்',
+      statsYears: 'ஆண்டுகளின் கிருபை',
+      statsBelievers: 'விசுவாச குடும்பங்கள்',
+      statsServices: 'வாராந்திர ஆராதனைகள்',
     },
     about: {
       eyebrow: 'எங்கள் நோக்கம்',

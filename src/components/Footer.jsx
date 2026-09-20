@@ -1,4 +1,4 @@
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../context/useLanguage';
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="wrap">
         <div className="footer-top">
           <div className="footer-brand">
-            <img src="assets/logo.png" alt="Elshaddai Ministries logo" />
+            <img src="assets/logo.png" alt="Elshaddai Ministries logo" width="56" height="56" loading="lazy" />
             <div>
               <div className="brand-name">Elshaddai <span style={{ color: 'var(--sacred-red)' }}>Ministries</span></div>
               <p>{t.footer.sub}</p>

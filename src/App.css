@@ -73,6 +73,27 @@ nav{
   color:var(--white);
   transform:translateY(-1px);
 }
+.theme-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--hairline);
+  color: var(--white);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+.theme-toggle-btn:hover {
+  border-color: var(--gold);
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.08);
+}
+
 .nav-cta{
   background:linear-gradient(135deg, var(--sacred-red) 0%, #a80a22 100%);
   color:var(--white);
@@ -123,10 +144,12 @@ nav{
 .mobile-drawer{
   position:fixed; inset:0; z-index:200;
   visibility:hidden; opacity:0;
+  pointer-events:none;
+  overflow:hidden;
   transition:opacity .35s ease, visibility .35s ease;
   display:flex; justify-content:flex-end;
 }
-.mobile-drawer.open{ visibility:visible; opacity:1; }
+.mobile-drawer.open{ visibility:visible; opacity:1; pointer-events:auto; }
 .mobile-drawer-backdrop{
   position:absolute; inset:0;
   background:rgba(0,0,0,0.8);
@@ -173,8 +196,14 @@ nav{
 .mobile-lang-btn{ width:100%; justify-content:center; padding:10px; font-size:13.5px; }
 .mobile-give-btn{ width:100%; text-align:center; padding:11px; font-size:13.5px; }
 
-@media (max-width:860px){
-  nav{ padding:10px 16px; }
+@media (max-width:1200px){
+  nav{ padding:12px 20px; gap:10px; }
+  .nav-links{ gap:16px; font-size:13.5px; }
+  .brand-name{ font-size:18px; }
+}
+
+@media (max-width:1060px){
+  nav{ padding:10px 18px; }
   .nav-links, .nav-cta{ display:none; }
   .nav-toggle{ display:flex; }
   .brand img{ width:44px; height:44px; }
@@ -192,12 +221,14 @@ nav{
 
 @media (max-width:360px){
   nav{ padding:8px 10px; gap:4px; }
-  .brand{ gap:6px; }
-  .brand img{ width:32px; height:32px; }
-  .brand-name{ font-size:13px; }
-  .lang-btn{ padding:3px 6px; font-size:10.5px; gap:3px; }
-  .nav-toggle{ width:32px; height:32px; }
-  .hamburger-bar{ width:16px; }
+  .brand{ gap:6px; flex-shrink:1; min-width:0; }
+  .brand img{ width:30px; height:30px; }
+  .brand-name{ font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .nav-actions{ gap:5px; flex-shrink:0; }
+  .lang-btn{ padding:3px 6px; font-size:10px; gap:2px; }
+  .theme-toggle-btn{ width:30px; height:30px; font-size:13px; }
+  .nav-toggle{ width:30px; height:30px; padding:4px; }
+  .hamburger-bar{ width:15px; }
 }
 
 /* ---------- HERO ---------- */
@@ -373,12 +404,22 @@ section{ position:relative; padding:80px 0; }
   gap:16px; flex-wrap:wrap; margin-top:20px;
 }
 .youtube-sub-btn{
-  display:inline-flex; align-items:center; gap:8px; opacity:0.95;
+  display:inline-flex; align-items:center; gap:8px;
+  background:#e50914; color:#ffffff !important;
+  border:1px solid #b20710; border-radius:4px;
   padding:10px 18px; font-size:13px; font-weight:600;
+  box-shadow:0 4px 14px rgba(229,9,20,0.35);
+  transition:all .25s ease;
+}
+.youtube-sub-btn:hover{
+  background:#b20710; color:#ffffff !important;
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(229,9,20,0.5);
 }
 .sermons-filter-pills{
   display:inline-flex; background:rgba(255,255,255,0.04);
   border:1px solid var(--hairline); border-radius:30px; padding:4px; gap:4px;
+  max-width:100%; box-sizing:border-box;
 }
 .filter-pill{
   background:none; border:none; color:var(--muted);
@@ -389,6 +430,47 @@ section{ position:relative; padding:80px 0; }
 .filter-pill.active{
   background:var(--sacred-red); color:#fff;
   box-shadow:0 4px 14px rgba(200,16,46,0.35); font-weight:600;
+}
+
+.sermons-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--charcoal);
+  border: 1px solid var(--hairline);
+  border-radius: 24px;
+  padding: 8px 16px;
+  max-width: 480px;
+  width: 100%;
+  margin: 18px 0 6px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.sermons-search-bar:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(201, 162, 74, 0.15);
+}
+.sermons-search-input {
+  background: transparent;
+  border: none;
+  color: var(--white);
+  font-size: 13.5px;
+  width: 100%;
+  outline: none;
+}
+.sermons-search-input::placeholder {
+  color: var(--muted-2);
+}
+.search-clear-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+.search-clear-btn:hover {
+  color: var(--white);
 }
 
 /* Spotlight Card (Latest Sunday Sermon Script) */
@@ -431,7 +513,7 @@ section{ position:relative; padding:80px 0; }
   display:flex; justify-content:space-between; align-items:center;
   gap:24px; flex-wrap:wrap;
 }
-.spotlight-text{ flex:1; min-width:280px; }
+.spotlight-text{ flex:1; min-width:0; }
 .spotlight-theme{
   font-size:13px; font-weight:600; color:var(--gold);
   letter-spacing:0.06em; text-transform:uppercase; display:block; margin-bottom:4px;
@@ -574,9 +656,27 @@ section{ position:relative; padding:80px 0; }
   .sermon-spotlight-card{ padding:18px 16px; }
   .spotlight-content{ flex-direction:column; align-items:flex-start; }
   .spotlight-btn{ width:100%; justify-content:center; }
+  .spotlight-title{ font-size:20px; }
+  .spotlight-meta{ font-size:11px; gap:6px; }
+  .sermons-filter-pills{
+    display:flex; flex-wrap:wrap; border-radius:14px; padding:5px; gap:6px; width:100%; max-width:100%;
+  }
+  .filter-pill{ padding:6px 12px; font-size:12.5px; }
 }
 @media (max-width:480px){
   .sermon-body{ padding:14px; }
+  .filter-pill{ padding:5px 10px; font-size:11.5px; }
+  .youtube-sub-btn{ padding:8px 14px; font-size:12px; }
+}
+@media (max-width:360px){
+  .sermon-spotlight-card{ padding:14px 12px; }
+  .spotlight-title{ font-size:18px; }
+  .spotlight-verse-snippet{ font-size:12.5px; padding-left:10px; }
+  .spotlight-badge{ font-size:10.5px; padding:3px 8px; }
+  .spotlight-verse-tag{ font-size:11px; padding:3px 8px; }
+  .script-card{ padding:14px 16px; }
+  .script-card-title{ font-size:15px; }
+  .script-card-snippet{ font-size:11.5px; }
 }
 
 /* =========================================================
@@ -600,6 +700,32 @@ section{ position:relative; padding:80px 0; }
 }
 @keyframes modalScaleUp{
   from{ transform:scale(0.96); opacity:0; } to{ transform:scale(1); opacity:1; }
+}
+
+/* Sermon Modal — Mobile Full-Screen */
+@media (max-width:600px){
+  .sermon-modal-backdrop{ padding:0; }
+  .sermon-modal-container{
+    max-width:100%; max-height:100vh; max-height:100dvh;
+    border-radius:0; border:none;
+  }
+  .sermon-modal-bar{ padding:10px 14px; flex-wrap:wrap; gap:8px; }
+  .bar-left{ width:100%; }
+  .bar-actions{ width:100%; flex-wrap:wrap; gap:6px; justify-content:flex-end; }
+  .view-mode-pill{ order:1; }
+  .font-adjuster{ order:2; }
+  .action-icon-btn{ order:3; width:30px; height:30px; }
+  .modal-close-btn{ order:4; width:30px; height:30px; font-size:14px; }
+  .sermon-dates-nav{ padding:8px 14px; }
+  .date-nav-btn .d-title{ font-size:11px; max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+}
+@media (max-width:400px){
+  .sermon-modal-bar{ padding:8px 10px; }
+  .bulletin-tag{ font-size:10.5px; gap:4px; }
+  .mode-btn{ font-size:10.5px; padding:4px 8px; }
+  .font-btn{ padding:3px 6px; font-size:10px; }
+  .action-icon-btn{ width:28px; height:28px; }
+  .modal-close-btn{ width:28px; height:28px; font-size:13px; }
 }
 
 /* Font Size Level Controls */
@@ -685,7 +811,8 @@ section{ position:relative; padding:80px 0; }
 .sermon-modal-body{
   padding:24px 28px; overflow-y:auto; flex:1; -webkit-overflow-scrolling:touch;
 }
-@media (max-width:600px){ .sermon-modal-body{ padding:16px 18px; } }
+@media (max-width:600px){ .sermon-modal-body{ padding:14px 16px; } }
+@media (max-width:360px){ .sermon-modal-body{ padding:12px 12px; } }
 
 /* Church Header Frame (Bulletin Style) */
 .bulletin-header-frame{
@@ -697,7 +824,7 @@ section{ position:relative; padding:80px 0; }
   border:1.5px solid var(--sacred-red); border-radius:50%;
   display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
-.b-church-meta{ flex:1; }
+.b-church-meta{ flex:1; min-width:0; }
 .b-church-meta h2{ font-size:19px; color:var(--gold); letter-spacing:0.04em; margin-bottom:2px; }
 .b-tamil-name{ font-size:13.5px; color:var(--white); font-weight:600; margin-bottom:2px; }
 .b-sub{ font-size:11px; color:var(--muted-2); }
@@ -707,6 +834,19 @@ section{ position:relative; padding:80px 0; }
   border:1px solid rgba(201,162,74,0.25); padding:6px 10px; border-radius:4px; flex-shrink:0;
 }
 
+/* Bulletin header mobile stacking */
+@media (max-width:500px){
+  .bulletin-header-frame{
+    flex-direction:column; align-items:flex-start; gap:12px;
+  }
+  .b-cross{ width:34px; height:34px; font-size:20px; }
+  .b-church-meta h2{ font-size:16px; }
+  .b-tamil-name{ font-size:12.5px; }
+  .b-service-pill{
+    text-align:left; flex-direction:row; gap:10px; width:100%;
+  }
+}
+
 /* Sermon Hero Banner */
 .sermon-hero-banner{
   display:flex; justify-content:space-between; align-items:flex-start;
@@ -714,7 +854,7 @@ section{ position:relative; padding:80px 0; }
   border:1px solid var(--hairline); border-radius:6px; padding:18px 20px;
   flex-wrap:wrap;
 }
-.hero-left{ flex:1; min-width:260px; }
+.hero-left{ flex:1; min-width:0; }
 .category-label{
   font-size:10.5px; text-transform:uppercase; letter-spacing:0.12em;
   color:var(--ember); font-weight:600;
@@ -986,6 +1126,13 @@ section{ position:relative; padding:80px 0; }
     margin-top:2px;
   }
 }
+@media (max-width:360px){
+  .event-row{ padding:12px 10px; }
+  .event-info h4{ font-size:15px; }
+  .event-info p{ font-size:12.5px; }
+  .event-date .d{ font-size:15px; }
+  .event-date .m{ font-size:10.5px; }
+}
 
 /* ---------- MINISTRIES ---------- */
 .ministries{ background:var(--ink-2); }
@@ -993,15 +1140,161 @@ section{ position:relative; padding:80px 0; }
 .min-card{ background:var(--charcoal); padding:28px 20px; transition:background .3s ease, transform .35s var(--ease); }
 .min-card:hover{ background:var(--charcoal-2); transform:translateY(-4px); }
 .min-card .ico{
-  width:34px; height:34px; border:1px solid var(--sacred-red); border-radius:50%; margin-bottom:16px;
+  width:38px; height:38px; border:1px solid var(--sacred-red); border-radius:50%; margin-bottom:16px;
+  display:flex; align-items:center; justify-content:center; font-size:17px;
+  background:rgba(200,16,46,0.08);
   transition:transform .4s var(--ease), background .3s ease;
 }
-.min-card:hover .ico{ transform:scale(1.15); background:rgba(200,16,46,0.15); }
+.min-card:hover .ico{ transform:scale(1.15); background:rgba(200,16,46,0.18); border-color:var(--gold); }
 .min-card h4{ font-size:15.5px; margin-bottom:6px; }
 .min-card p{ font-size:12.5px; color:var(--muted-2); line-height:1.45; }
 
 @media (max-width:960px){ .min-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:480px){ .min-grid{ grid-template-columns:1fr; } .min-card{ padding:20px 16px; } }
+@media (max-width:320px){ .min-card{ padding:16px 12px; } .min-card h4{ font-size:14.5px; } .min-card p{ font-size:12px; } }
+
+/* ---------- TESTIMONIALS ---------- */
+.testimonials{
+  background: var(--ink);
+  padding: 80px 0;
+  border-top: 1px solid var(--hairline);
+}
+.testimonials-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+.testimonial-card{
+  background: var(--charcoal);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.testimonial-card:hover{
+  transform: translateY(-4px);
+  border-color: var(--gold);
+}
+.t-stars{
+  color: var(--gold);
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+.t-quote{
+  font-size: 13.5px;
+  color: var(--white);
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 22px;
+  flex-grow: 1;
+}
+.t-author{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hairline);
+}
+.t-avatar{
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--sacred-red);
+  color: var(--white);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.t-meta h4{
+  font-size: 14px;
+  margin: 0;
+  color: var(--white);
+}
+.t-role{
+  display: block;
+  font-size: 11px;
+  color: var(--gold);
+}
+.t-loc{
+  display: block;
+  font-size: 10.5px;
+  color: var(--muted-2);
+}
+@media (max-width: 880px){
+  .testimonials-grid{ grid-template-columns: 1fr; gap: 16px; }
+  .testimonials{ padding: 50px 0; }
+}
+
+/* Daily Verse Banner */
+.daily-verse-banner {
+  padding: 36px 0 16px;
+  position: relative;
+  z-index: 2;
+}
+.daily-verse-card {
+  background: linear-gradient(135deg, rgba(34, 31, 40, 0.8) 0%, rgba(20, 19, 25, 0.95) 100%);
+  border: 1px solid var(--hairline);
+  border-left: 4px solid var(--gold);
+  border-radius: 8px;
+  padding: 22px 26px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+}
+.daily-verse-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.dv-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.dv-copy-btn {
+  background: transparent;
+  border: 1px solid var(--hairline);
+  color: var(--muted);
+  font-size: 11.5px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.dv-copy-btn:hover {
+  border-color: var(--gold);
+  color: var(--white);
+}
+.dv-quote {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(15px, 2vw, 18px);
+  color: var(--white);
+  line-height: 1.55;
+  margin: 0 0 10px;
+  font-style: italic;
+}
+.dv-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+.dv-ref {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold-soft);
+  letter-spacing: 0.04em;
+}
 
 /* ---------- GIVE ---------- */
 .give{ background:linear-gradient(180deg, var(--ink) 0%, #140d10 100%); text-align:center; }
@@ -1016,9 +1309,16 @@ section{ position:relative; padding:80px 0; }
 .give-method .lbl{ font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-soft); margin-bottom:5px; display:block; }
 .give-method .val{ font-family:'Fraunces',serif; font-size:15px; }
 
-@media (max-width:500px){
-  .give-methods{ flex-direction:column; align-items:center; gap:10px; }
+@media (max-width:640px){
+  .give-methods{ flex-direction:column; align-items:stretch; gap:10px; }
   .give-method{ max-width:100%; width:100%; flex:none; text-align:center; padding:16px; }
+}
+@media (max-width:320px){
+  .give h2{ font-size:clamp(20px, 5vw, 32px); }
+  .give p{ font-size:13px; }
+  .give-method{ padding:12px; }
+  .give-method .lbl{ font-size:10px; }
+  .give-method .val{ font-size:14px; }
 }
 
 /* ---------- CONTACT ---------- */
@@ -1047,10 +1347,19 @@ form .btn-primary{ border:none; cursor:pointer; justify-self:start; margin-top:4
   .contact-grid{ grid-template-columns:1fr; gap:32px; }
   .contact-info .item{ gap:10px; }
 }
+@media (max-width:640px){
+  .field textarea{ min-height:120px; }
+}
 @media (max-width:480px){
   .contact-info .item{ flex-direction:column; gap:3px; margin-bottom:16px; }
   .contact-info .item .k{ width:auto; }
   form .btn-primary{ width:100%; text-align:center; }
+}
+@media (max-width:320px){
+  .contact-info .item .v{ font-size:13.5px; }
+  .contact-info .item .k{ font-size:10px; }
+  .field input, .field textarea{ padding:10px 11px; font-size:15px; }
+  .field label{ font-size:10.5px; }
 }
 
 /* ---------- FOOTER ---------- */
@@ -1073,19 +1382,98 @@ footer{ background:var(--ink); border-top:1px solid var(--hairline); padding:40p
   .footer-links{ display:grid; grid-template-columns:1fr 1fr; gap:20px; width:100%; }
   .footer-bottom{ flex-direction:column; text-align:center; gap:5px; }
 }
+@media (max-width:360px){
+  footer{ padding:28px 0 18px; }
+  .footer-brand img{ width:44px; height:44px; }
+  .footer-brand p{ font-size:11.5px; }
+  .footer-links h5{ font-size:10.5px; margin-bottom:7px; }
+  .footer-links a{ font-size:12px; margin-bottom:5px; }
+  .footer-bottom{ font-size:10.5px; }
+}
 
-/* back to top */
+/* WhatsApp Floating Action Button */
+.whatsapp-float-btn {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 900;
+  width: 52px;
+  height: 52px;
+  background: #25D366;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s ease;
+  text-decoration: none;
+}
+.whatsapp-float-btn:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.6);
+  color: #ffffff;
+}
+.whatsapp-tooltip {
+  position: absolute;
+  left: 64px;
+  background: var(--ink);
+  color: var(--white);
+  border: 1px solid var(--hairline);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.whatsapp-float-btn:hover .whatsapp-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+@media (max-width: 600px) {
+  .whatsapp-float-btn {
+    bottom: 16px;
+    left: 16px;
+    width: 46px;
+    height: 46px;
+  }
+  .whatsapp-tooltip {
+    display: none;
+  }
+}
+
+/* back to top with circular progress ring */
 .to-top{
-  position:fixed; right:14px; bottom:14px; z-index:150;
-  width:38px; height:38px; border-radius:50%;
+  position:fixed; right:20px; bottom:20px; z-index:150;
+  width:44px; height:44px; border-radius:50%;
   background:var(--charcoal); border:1px solid var(--hairline); color:var(--gold-soft);
-  display:flex; align-items:center; justify-content:center; font-size:14px;
+  display:flex; align-items:center; justify-content:center;
   opacity:0; transform:translateY(12px); pointer-events:none;
   transition:opacity .4s ease, transform .4s var(--ease), border-color .3s ease;
   box-shadow:0 4px 14px rgba(0,0,0,0.4);
+  padding:0;
 }
 .to-top.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
-.to-top:hover{ border-color:var(--gold); transform:translateY(-3px); }
+.to-top:hover{ border-color:var(--gold); transform:translateY(-3px); color:var(--white); }
+.to-top-ring{
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  transform:rotate(-90deg); pointer-events:none;
+}
+.to-top-ring .ring-bg{
+  fill:none; stroke:rgba(255,255,255,0.08); stroke-width:2.5;
+}
+.to-top-ring .ring-progress{
+  fill:none; stroke:var(--gold); stroke-width:2.5; stroke-linecap:round;
+  transition:stroke-dashoffset .15s ease;
+}
+.to-top-arrow{
+  position:relative; z-index:2; font-size:16px; line-height:1;
+}
 
 /* ---------- RECENT EVENT PHOTOS ---------- */
 .event-photos{ background:var(--ink-2); }
@@ -1138,9 +1526,96 @@ footer{ background:var(--ink); border-top:1px solid var(--hairline); padding:40p
 }
 .lightbox-close:hover{ background:var(--sacred-red); }
 
-@media (max-width:860px){
+.lightbox-nav-btn {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(11, 11, 13, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.lightbox-nav-btn:hover {
+  background: var(--sacred-red);
+  transform: translateY(-50%) scale(1.08);
+}
+.lightbox-nav-btn.prev { left: 12px; }
+.lightbox-nav-btn.next { right: 12px; }
+
+@media (max-width:640px){
+  .lightbox-nav-btn { width: 34px; height: 34px; font-size: 20px; }
+}
+@media (max-width:860px) and (min-width:641px){
+  .photo-grid{ grid-template-columns:repeat(2, 1fr); }
+  .photo-card.wide{ grid-column:span 2; }
+}
+@media (max-width:640px){
   .photo-grid{ grid-template-columns:1fr; }
   .photo-card.wide{ grid-column:span 1; aspect-ratio:16/10; }
   .lightbox-backdrop{ padding:10px; }
   .lightbox-caption{ padding:14px 16px; }
+}
+@media (max-width:360px){
+  .photo-grid{ gap:12px; margin-top:24px; }
+  .photo-title{ font-size:14px; }
+  .photo-cat{ font-size:9.5px; }
+  .photo-date{ font-size:10.5px; }
+  .lightbox-backdrop{ padding:6px; }
+  .lightbox-caption h3{ font-size:16px; }
+  .lightbox-caption p{ font-size:12px; }
+}
+
+/* ================================================================
+   LARGE SCREEN GRID ENHANCEMENTS
+   ================================================================ */
+@media (min-width:1440px){
+  .service-grid{ gap:2px; }
+  .service-card{ padding:40px 30px; }
+  .service-card h3{ font-size:24px; }
+  .service-card .time{ font-size:clamp(24px, 3vw, 34px); }
+  .service-card p{ font-size:14px; }
+
+  .about-grid{ gap:56px; }
+  .about-copy p{ font-size:15px; }
+  .about-copy .verse{ font-size:clamp(18px, 2.5vw, 23px); }
+  .trinity h4{ font-size:17px; }
+  .trinity p{ font-size:14px; }
+
+  .sermon-grid{ gap:24px; }
+  .sermon-scripts-grid{ gap:22px; }
+  .sermon-body h4{ font-size:18px; }
+  .sermon-body p{ font-size:13.5px; }
+
+  .min-grid{ gap:2px; }
+  .min-card{ padding:34px 24px; }
+  .min-card h4{ font-size:17px; }
+  .min-card p{ font-size:13.5px; }
+
+  .event-row{ gap:28px; padding:24px 0; }
+  .event-info h4{ font-size:18px; }
+  .event-info p{ font-size:14px; }
+
+  .contact-grid{ gap:56px; }
+  .contact-info .item .v{ font-size:15.5px; }
+
+  .photo-grid{ gap:22px; }
+  .photo-title{ font-size:18px; }
+
+  .give-method{ padding:22px 24px; }
+  .give-method .val{ font-size:16px; }
+
+  .footer-top{ gap:36px; padding-bottom:36px; }
+  .footer-brand p{ font-size:13.5px; }
+  .footer-links a{ font-size:14px; }
 }
