@@ -28,7 +28,7 @@ export default function Hero() {
             <span className="lbl">{t.hero.statsYears || 'Years of Ministry'}</span>
           </div>
           <div>
-            <span className="num">500+</span>
+            <span className="num">50+</span>
             <span className="lbl">{t.hero.statsBelievers || 'Believers & Families'}</span>
           </div>
           <div>
